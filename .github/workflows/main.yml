@@ -24,7 +24,7 @@ jobs:
       - name: Build and Push Image in Docker Hub 
         uses: docker/build-push-action@v3.2.0
         with:
-          context: producer
+          context: ./src/main/resources
           push: true
           tags: |
                eullerhbo/api_pagamento:v${{github.run_number}}
@@ -43,7 +43,7 @@ jobs:
       - name: Build and Push Image in Azure Container Registry
         uses: docker/build-push-action@v3.2.0
         with:
-          context: producer
+          context: ./src/main/resources
           push: true
           tags: |
                ${{secrets.AZURE_CONTAINER_REGISTRY_SERVER}}/api_pagamento:v${{github.run_number}}
