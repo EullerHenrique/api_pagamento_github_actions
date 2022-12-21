@@ -1,0 +1,77 @@
+name: CI-CD
+
+on: 
+  push: 
+    branches: ["main"]
+    
+jobs:
+
+  CI:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout GitHub Action
+        uses: actions/checkout@v3.1.0
+    
+      # Docker Hub
+        
+      - name: Login in Docker Hub
+        uses: docker/login-action@v2.1.0
+        with:
+         username: ${{secrets.DOCKER_HUB_USERNAME}}
+         password: ${{secrets.DOCKER_HUB_PASSWORD}}
+      
+      - name: Build and Push Image in Docker Hub 
+        uses: docker/build-push-action@v3.2.0
+        with:
+          context: producer
+          push: true
+          tags: |
+               eullerhbo/api_pagamento:v${{github.run_number}}
+               eullerhbo/api_pagamento:latest
+               
+               
+      # Azure Container Registry
+ 
+      - name: Login in Azure Container Registry
+        uses: docker/login-action@v2.1.0
+        with:
+         registry: ${{secrets.AZURE_CONTAINER_REGISTRY_SERVER}}
+         username: ${{secrets.AZURE_CONTAINER_REGISTRY_USERNAME}}
+         password: ${{secrets.AZURE_CONTAINER_REGISTRY_PASSWORD}}
+      
+      - name: Build and Push Image in Azure Container Registry
+        uses: docker/build-push-action@v3.2.0
+        with:
+          context: producer
+          push: true
+          tags: |
+               ${{secrets.AZURE_CONTAINER_REGISTRY_SERVER}}/api_pagamento:v${{github.run_number}}
+               ${{secrets.AZURE_CONTAINER_REGISTRY_SERVER}}/api_pagamento:latest
+ 
+      # Google Cloud
+      
+      # AWS
+      
+      # GitHub Container Registry
+             
+  #CD:
+     #needs: [CI]    
+     #runs-on: ubuntu-latest
+     #steps:
+     # - name: 'Checkout GitHub Action'
+     #   uses: actions/checkout@v3.1.0
+     # - name: Azure WebApp
+     #   uses: Azure/webapps-deploy@v2.2.5
+     #   with:
+     #    # Nome do aplicativo Web do Azure
+     #    app-name: email-kafka-producer
+     #    # Aplica-se a Web Apps (Windows e Linux) e Web App Containers (linux). Cenário de vários contêineres não suportado. Publicar conteúdo do arquivo de perfil (*.publishsettings) com segredos do Web Deploy
+     #    publish-profile: ${{secrets.PUBLISH_PROFILE_PRODUCER}}
+     #    # Aplica-se apenas a contêineres de aplicativos da Web: especifique o nome completo da(s) imagem(ns) do contêiner. Por exemplo, 'myregistry.azurecr.io/nginx:latest' ou 'python:3.7.2-alpine/'. Para o cenário de vários contêineres, vários nomes de imagem de contêiner podem ser fornecidos (separados por várias linhas)
+     #    images: eullerhbo/email_kafka_producer:latest
+         
+  
+
+     
+      
