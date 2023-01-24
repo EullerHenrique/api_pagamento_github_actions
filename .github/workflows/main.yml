@@ -55,21 +55,21 @@ jobs:
       
       # GitHub Container Registry
              
-  #CD:
-     #needs: [CI]    
-     #runs-on: ubuntu-latest
-     #steps:
-     # - name: 'Checkout GitHub Action'
-     #   uses: actions/checkout@v3.1.0
-     # - name: Azure WebApp
-     #   uses: Azure/webapps-deploy@v2.2.5
-     #   with:
-     #    # Nome do aplicativo Web do Azure
-     #    app-name: email-kafka-producer
-     #    # Aplica-se a Web Apps (Windows e Linux) e Web App Containers (linux). Cenário de vários contêineres não suportado. Publicar conteúdo do arquivo de perfil (*.publishsettings) com segredos do Web Deploy
-     #    publish-profile: ${{secrets.PUBLISH_PROFILE_PRODUCER}}
-     #    # Aplica-se apenas a contêineres de aplicativos da Web: especifique o nome completo da(s) imagem(ns) do contêiner. Por exemplo, 'myregistry.azurecr.io/nginx:latest' ou 'python:3.7.2-alpine/'. Para o cenário de vários contêineres, vários nomes de imagem de contêiner podem ser fornecidos (separados por várias linhas)
-     #    images: eullerhbo/email_kafka_producer:latest
+  CD:
+     needs: [CI]    
+     runs-on: ubuntu-latest
+     steps:
+      - name: 'Checkout GitHub Action'
+        uses: actions/checkout@v3.1.0
+      - name: Azure WebApp
+        uses: Azure/webapps-deploy@v2.2.5
+        with:
+         # Nome do aplicativo Web do Azure
+         app-name: api-pagamento-eullerr
+         # Aplica-se a Web Apps (Windows e Linux) e Web App Containers (linux). Cenário de vários contêineres não suportado. Publicar conteúdo do arquivo de perfil (*.publishsettings) com segredos do Web Deploy
+         publish-profile: ${{secrets.PUBLISH_PROFILE_PRODUCER}}
+         # Aplica-se apenas a contêineres de aplicativos da Web: especifique o nome completo da(s) imagem(ns) do contêiner. Por exemplo, 'myregistry.azurecr.io/nginx:latest' ou 'python:3.7.2-alpine/'. Para o cenário de vários contêineres, vários nomes de imagem de contêiner podem ser fornecidos (separados por várias linhas)
+         images: eulleracr.azurecr.io/api_pagamento:latest
          
   
 
